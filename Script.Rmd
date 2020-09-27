@@ -1,0 +1,73 @@
+
+
+PROCESAMIENTO PARA FORMAR LA BASE DE DATOS URBANO, QUE SE REFIERE A LA URBANIZACIÓN 
+LAS VARIABLES QUE CONTIENE SON: DENSIDAD DE LA POBLACIÓN, POBLACIÓN RURAL, PROBLACIÓN URBANA Y EL CRECIMIENTO DE LA POBLACIÓN URBANA. 
+```{r}
+library(rio)
+lkDTA="https://github.com/fiorelabarbaran/Trabajo/raw/master/crecimientoUrb.xls"
+crecimientoUrb=import(lkDTA)
+```
+
+```{r}
+lkDTA2="https://github.com/fiorelabarbaran/Trabajo/raw/master/densidad.xls"
+densidad=import(lkDTA2)
+```
+
+```{r}
+lkDTA3="https://github.com/fiorelabarbaran/Trabajo/raw/master/pobRur.xls"
+pobRur=import(lkDTA3)
+```
+
+```{r}
+lkDTA4="https://github.com/fiorelabarbaran/Trabajo/raw/master/pobUrb.xls"
+pobUrb=import(lkDTA4)
+```
+
+CAMBIO DE LOS NOMBRES 
+```{r}
+colnames(crecimientoUrb)=c("País","CrecimientoPobUrb")
+colnames(densidad)=c("País","DensidadPob")
+colnames(pobRur)=c("País","PobRural")
+colnames(pobUrb)=c("País","PobUrbana")
+```
+
+MERGE PARA LA TABLA URBANO 
+```{r}
+urbano=merge(densidad,pobUrb)
+urbano=merge(urbano,pobRur)
+urbano=merge(urbano,crecimientoUrb)
+
+```
+
+
+```{r}
+write.csv(urbano,"urbano.csv", row.names = F)
+```
+
+MERGE DE TODAS LAS TABLAS PARA TENER LA DATAFINAL 
+```{r}
+linkEducacion="https://raw.githubusercontent.com/Giancarlo-Ramirez/Estad-stica-2---Teor-a/master/EducacionFinal.csv"
+Educacion=import(linkEducacion)
+```
+```{r}
+linkDemocracia="https://raw.githubusercontent.com/AlonsoAbarca/Pruebas/master/Democraciafinal.csv"
+
+Democracia=import(linkDemocracia)
+```
+
+```{r}
+linkRiqueza="https://raw.githubusercontent.com/Alisson2406/Trabajo-final-de-estadistica/master/Riqueza.csv"
+
+Riqueza=import(linkRiqueza)
+```
+
+```{r}
+datafinal=merge(Democracia,Educacion)
+datafinal=merge(datafinal,Riqueza)
+datafinal=merge(datafinal,urbano)
+
+```
+
+```{r}
+write.csv(datafinal,"datafinal.csv", row.names = F)
+```
